@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  category    String
+  title       String
+  description String
+  tags        String[] @default([])
+  metrics     Json?
+  visualType  String   @default("animation")
+  animation   String   @default("dashboard")
+  videoUrl    String?
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+}
+
+model SiteSettings {
+  id           Int      @id @default(1)
+  name         String   @default("Seunpaul")
+  eyebrow      String   @default("Fiverr Portfolio · Growth · Automation · Web")
+  headline     String   @default("Building systems that turn attention into action.")
+  subheadline  String   @default("I help SaaS and eCommerce brands grow with affiliate recruitment, influencer sourcing, funnels, AI automation, lead generation, and practical web solutions.")
+  fiverrUrl    String   @default("https://www.fiverr.com/seunpaul1009")
+  rating       String   @default("5.0★")
+  reviews      String   @default("7")
+  sales        String   @default("$12K+")
+  jobTitle     String   @default("Affiliate Growth AI Automation Specialist")
+  availability String   @default("Available")
+  siteUrl      String   @default("https://YOUR-DOMAIN.com")
+  googleVerification String?
+  updatedAt    DateTime @updatedAt
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Seunpaul Portfolio",
+  "short_name": "Seunpaul",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050b14",
+  "theme_color": "#050b14",
+  "description": "Affiliate growth, AI automation, funnels and web solutions by Seunpaul."
+}
