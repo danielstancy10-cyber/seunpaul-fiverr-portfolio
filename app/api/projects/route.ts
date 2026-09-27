@@ -18,6 +18,8 @@ export async function POST(request: Request) {
     category: String(body.category || "New Project"),
     title: String(body.title || "New portfolio project"),
     description: String(body.description || "Describe the problem, approach and outcome."),
+    seoTitle: body.seoTitle ? String(body.seoTitle) : null,
+    seoDescription: body.seoDescription ? String(body.seoDescription) : null,
     tags: Array.isArray(body.tags) ? body.tags.map(String) : [],
     metrics: Array.isArray(body.metrics) ? body.metrics : [],
     visualType: ["animation", "video", "image"].includes(body.visualType) ? body.visualType : "animation",

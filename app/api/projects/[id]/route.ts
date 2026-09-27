@@ -11,6 +11,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     category: String(body.category || "Project"),
     title: String(body.title || "Untitled project"),
     description: String(body.description || ""),
+    seoTitle: body.seoTitle ? String(body.seoTitle) : null,
+    seoDescription: body.seoDescription ? String(body.seoDescription) : null,
     tags: Array.isArray(body.tags) ? body.tags.map(String) : [],
     metrics: Array.isArray(body.metrics) ? body.metrics : [],
     visualType: ["animation", "video", "image"].includes(body.visualType) ? body.visualType : "animation",
