@@ -1,6 +1,14 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://YOUR-DOMAIN.com";
-  return { rules: [{ userAgent: "*", allow: "/", disallow: "/dashboard" }], sitemap: `${base.replace(/\/$/, "")}/sitemap.xml` };
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: "/dashboard",
+      },
+    ],
+    sitemap: "https://seunpaul-fiverr-portfolio.vercel.app/sitemap.xml",
+  };
 }
