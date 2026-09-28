@@ -2,10 +2,33 @@ import type { Project } from "@prisma/client";
 
 export function ProjectVisual({ project }: { project: Project }) {
   if (project.visualType === "video" && project.videoUrl) {
-    return <div className="screen media-screen"><video src={project.videoUrl} autoPlay muted loop playsInline controls preload="metadata" /></div>;
+    return (
+      <div className="screen media-screen">
+        <video
+          src={project.videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+          preload="metadata"
+          aria-label={`${project.title} project demonstration`}
+        />
+      </div>
+    );
   }
+
   if (project.visualType === "image" && project.imageUrl) {
-    return <div className="screen media-screen"><img src={project.imageUrl} alt={project.title} /></div>;
+    return (
+      <div className="screen media-screen">
+        <img
+          src={project.imageUrl}
+          alt={`${project.title} project visual`}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    );
   }
 
   return <div className="screen"><div className="screenbar"><span className="dot"></span><span className="dot"></span><span className="dot"></span><span className="screen-title">portfolio_preview</span></div><div className="ui">

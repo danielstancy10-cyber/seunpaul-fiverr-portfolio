@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "FAQ | Seunpaul Portfolio",
-  description: "Answers about Seunpaul's affiliate recruitment, AI automation, lead generation, funnels, web app, and freelance workflow services.",
-  alternates: { canonical: "/faq" },
+  title: "FAQ | Seunpaul",
+  description: "Answers about Seunpaul's affiliate recruitment, lead generation, AI automation, conversion funnels, AI web app and freelance workflow services.",
+  alternates: { canonical: "https://seunpaul-fiverr-portfolio.vercel.app/faq" },
 };
 
 const faqs = [
-  ["What does Seunpaul do?", "Seunpaul focuses on affiliate recruitment, influencer sourcing, AI automation, lead generation, conversion funnels, and practical web solutions."],
+  ["What does Seunpaul do?", "Seunpaul focuses on affiliate recruitment, influencer sourcing, lead generation, AI automation, conversion funnels, and practical web solutions."],
   ["Can I hire Seunpaul through Fiverr?", "Yes. Project enquiries and scope discussions are handled through the Seunpaul Fiverr profile."],
   ["Where is Seunpaul based?", "Seunpaul is based in Nigeria and delivers freelance work online."],
   ["Can Seunpaul build an AI web app or MVP?", "Yes. The portfolio includes AI web app and MVP work covering product UX, APIs, database-aware flows, and deployment-oriented implementation."],
@@ -20,5 +21,61 @@ const faqs = [
 
 export default async function FaqPage() {
   const s = await prisma.siteSettings.findUnique({ where: { id: 1 } });
-  return <main className="content-page"><div className="container narrow-page"><nav className="page-nav"><Link className="brand" href="/"><span className="brand-mark">S</span><span>{s?.name ?? "Seunpaul"}</span></Link><Link className="btn btn-secondary small" href="/">← Portfolio</Link></nav><article><span className="eyebrow">FAQ</span><h1>Answers to common project questions.</h1><p className="lead">These concise answers explain the services, workflow, location, and best way to start an engagement.</p><div className="faq-page-list">{faqs.map(([q,a])=><section className="faq-answer" key={q}><h2>{q}</h2><p>{a}</p></section>)}</div></article></div></main>;
+
+  return (
+    <main className="content-page">
+      <div className="container narrow-page">
+        <nav className="page-nav" aria-label="Primary">
+          <Link className="brand" href="/"><span className="brand-mark">S</span><span>{s?.name ?? "Seunpaul"}</span></Link>
+          <Link className="btn btn-secondary small" href="/">← Portfolio</Link>
+        </nav>
+
+        <article>
+          <nav className="breadcrumbs" aria-label="Breadcrumb">
+            <Link href="/">Home</Link><span aria-hidden="true">/</span><span>FAQ</span>
+          </nav>
+
+          <span className="eyebrow">FAQ</span>
+          <h1>Answers to common project questions.</h1>
+          <p className="lead">These answers explain the services, workflow, location, and best way to start an engagement.</p>
+
+          <div className="faq-page-list">
+            {faqs.map(([q, a]) => (
+              <section className="faq-answer" key={q}>
+                <h2>{q}</h2>
+                <p>{a}</p>
+              </section>
+            ))}
+          </div>
+        </article>
+      </div>
+
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "FAQPage",
+                mainEntity: faqs.map(([question, answer]) => ({
+                  "@type": "Question",
+                  name: question,
+                  acceptedAnswer: { "@type": "Answer", text: answer },
+                })),
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+                  { "@type": "ListItem", position: 2, name: "FAQ", item: absoluteUrl("/faq") },
+                ],
+              },
+            ],
+          }),
+        }}
+      />
+    </main>
+  );
 }
